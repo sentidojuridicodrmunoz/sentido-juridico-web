@@ -1,11 +1,16 @@
 import Navbar from "./components/Navbar"
 import "./styles/styles.css"
+import AppointmentForm from "./components/AppointmentForm";
+import { useState } from "react";
+
+
+
 
 
 
 function App() {
   
-
+  const [showForm, setShowForm] = useState(false);
   const areas = [
   {
     title: "Civil",
@@ -46,6 +51,7 @@ function App() {
           <div style={styles.buttons}>
             <button
   style={styles.primaryButton}
+  onClick={() => setShowForm(true)}
   onMouseOver={(e) => {
     e.target.style.backgroundColor = "#b8911f"
     e.target.style.transform = "scale(1.05)"
@@ -55,26 +61,19 @@ function App() {
     e.target.style.transform = "scale(1)"
   }}
 >
+  Agendar Consulta
+</button>
 
-              Agendar Consulta
-            </button>
-
-            <button
+<a
+  href="https://wa.me/573127944196?text=Hola,%20quisiera%20recibir%20asesoría%20jurídica."
+  target="_blank"
+  rel="noopener noreferrer"
+  className="btnSecondary"
   style={styles.secondaryButton}
-  onMouseOver={(e) => {
-    e.target.style.backgroundColor = "white"
-    e.target.style.color = "#0A1F44"
-    e.target.style.transform = "scale(1.05)"
-  }}
-  onMouseOut={(e) => {
-    e.target.style.backgroundColor = "transparent"
-    e.target.style.color = "white"
-    e.target.style.transform = "scale(1)"
-  }}
 >
+  Contactar por WhatsApp
+</a>
 
-              Contactar por WhatsApp
-            </button>
           </div>
         </div>
       </section>
@@ -236,34 +235,30 @@ function App() {
     <div style={styles.ctaButtons}>
 
       <button
-        style={styles.ctaPrimary}
-        onMouseOver={(e) => {
-          e.target.style.backgroundColor = "#b8911f"
-          e.target.style.transform = "scale(1.05)"
-        }}
-        onMouseOut={(e) => {
-          e.target.style.backgroundColor = "#C9A227"
-          e.target.style.transform = "scale(1)"
-        }}
-      >
-        Agendar Consulta
-      </button>
+  style={styles.ctaPrimary}
+  onClick={() => setShowForm(true)}
+  onMouseOver={(e) => {
+    e.target.style.backgroundColor = "#b8911f"
+    e.target.style.transform = "scale(1.05)"
+  }}
+  onMouseOut={(e) => {
+    e.target.style.backgroundColor = "#C9A227"
+    e.target.style.transform = "scale(1)"
+  }}
+>
+  Agendar Consulta
+</button>
 
-      <button
-        style={styles.ctaSecondary}
-        onMouseOver={(e) => {
-          e.target.style.backgroundColor = "#ffffff"
-          e.target.style.color = "#0A1F44"
-          e.target.style.transform = "scale(1.05)"
-        }}
-        onMouseOut={(e) => {
-          e.target.style.backgroundColor = "transparent"
-          e.target.style.color = "#ffffff"
-          e.target.style.transform = "scale(1)"
-        }}
-      >
-        Contactar por WhatsApp
-      </button>
+<a
+  href="https://wa.me/573127944196?text=Hola,%20quiero%20agendar%20una%20consulta%20jurídica."
+  target="_blank"
+  rel="noopener noreferrer"
+  className="btnCtaSecondary"
+  style={styles.ctaSecondary}
+>
+  Contactar por WhatsApp
+</a>
+
 
     </div>
 
@@ -302,7 +297,7 @@ function App() {
   </div>
 </footer>
 
-
+{showForm && <AppointmentForm onClose={() => setShowForm(false)} />}
 
     </>
   )
