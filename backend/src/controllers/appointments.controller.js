@@ -1,4 +1,8 @@
 import { crearCitaRepo } from '../repositories/appointments.repository.js'
+import { 
+  enviarConfirmacionCliente,
+  enviarNotificacionAdmin
+} from '../services/email.service.js'
 
 export const crearCita = async (req, res) => {
   try {
@@ -20,8 +24,9 @@ export const crearCita = async (req, res) => {
       hora: time,
       notas: message || ''
     })
-
-    res.status(201).json({
+    await enviarConfirmacionCliente(nuevaCita)
+    await enviarNotificacionAdmin(nuevaCita)
+    return res.status(201).json({
       success: true,
       data: nuevaCita
     })
