@@ -27,11 +27,19 @@ export const crearCita = async (req, res) => {
     })
 
   } catch (error) {
-    console.error('ERROR CREAR CITA:', error)
+  console.error('ERROR CREAR CITA:', error)
 
-    res.status(500).json({
+  // Error de slot duplicado
+  if (error.code === '23505' && error.constraint === 'unique_slot') {
+    return res.status(409).json({
       success: false,
-      message: 'Error interno del servidor'
+      message: 'Ya existe una cita reservada para esa fecha y hora'
     })
   }
+
+  res.status(500).json({
+    success: false,
+    message: 'Error interno del servidor'
+  })
+}
 }
