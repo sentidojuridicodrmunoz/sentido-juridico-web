@@ -15,6 +15,25 @@ export default function AppointmentForm({ onClose }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
+  const [horasOcupadas, setHorasOcupadas] = useState([]);
+useEffect(() => {
+  if (!formData.date) return;
+
+  const fetchDisponibilidad = async () => {
+    try {
+      const res = await fetch(`http://localhost:4000/api/appointments?date=${formData.date}`);
+      const data = await res.json();
+
+      if (data.success) {
+        setHorasOcupadas(data.data);
+      }
+    } catch (err) {
+      console.error("Error cargando disponibilidad", err);
+    }
+  };
+
+  fetchDisponibilidad();
+}, [formData.date]);
 
   useEffect(() => {
     document.body.style.overflow = "hidden";
@@ -115,7 +134,22 @@ try {
 
           <input type="date" name="date" value={formData.date} onChange={handleChange} style={styles.input} required />
 
-          <input type="time" name="time" value={formData.time} onChange={handleChange} style={styles.input} required />
+          <select name="time" value={formData.time} onChange={handleChange} style={styles.input} required>
+  <option value="">Seleccione hora</option>
+
+  {[
+    "08:00","09:00","10:00","11:00",
+    "14:00","15:00","16:00","17:00"
+  ].map(hora => (
+    <option
+      key={hora}
+      value={hora}
+      disabled={horasOcupadas.includes(hora)}
+    >
+      {hora} {horasOcupadas.includes(hora) ? "(Ocupado)" : ""}
+    </option>
+  ))}
+</select>
 
           <select name="area" value={formData.area} onChange={handleChange} style={styles.input} required>
             <option value="">Seleccione área</option>

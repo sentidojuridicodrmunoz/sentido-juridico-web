@@ -21,3 +21,14 @@ export const crearCitaRepo = async (cita) => {
 
   return result.rows[0]
 }
+export const obtenerHorasOcupadas = async (fecha) => {
+  const query = `
+    SELECT hora
+    FROM appointments
+    WHERE fecha = $1
+  `;
+
+  const result = await pool.query(query, [fecha]);
+
+  return result.rows.map(row => row.hora);
+};
